@@ -7,15 +7,14 @@ Copyright by aceisace
 """
 
 import os
-import traceback
-import arrow
 import time
 import json
+import arrow
 import logging
-from logging.handlers import RotatingFileHandler
+import traceback
 
-from inkycal.display import Display
 from inkycal.custom import *
+from inkycal.display import Display
 from inkycal.modules.inky_image import Inkyimage as Images
 
 try:
@@ -31,49 +30,19 @@ except ImportError:
         'run: pip3 install numpy \nIf you are on Raspberry Pi '
         'remove numpy: pip3 uninstall numpy \nThen try again.')
 
-# (i): Logging shows logs above a threshold level.
-# e.g. logging.DEBUG will show all from DEBUG until CRITICAL
-# e.g. logging.ERROR will show from ERROR until CRITICAL
-# #DEBUG > #INFO > #ERROR > #WARNING > #CRITICAL
-
-# On the console, set a logger to show only important logs
-# (level ERROR or higher)
 stream_handler = logging.StreamHandler()
-stream_handler.setLevel(logging.ERROR)
 
-on_rtd = os.environ.get('READTHEDOCS') == 'True'
-if on_rtd:
-  logging.basicConfig(
-    level = logging.INFO,
-    format='%(asctime)s | %(name)s |  %(levelname)s: %(message)s',
-    datefmt='%d-%m-%Y %H:%M:%S',
-    handlers=[stream_handler])
-        
-else:
-  # Save all logs to a file, which contains more detailed output
-  logging.basicConfig(
-    level = logging.INFO,
-    format='%(asctime)s | %(name)s |  %(levelname)s: %(message)s',
-    datefmt='%d-%m-%Y %H:%M:%S',
-    handlers=[
-
-          stream_handler,                     # add stream handler from above
-
-          RotatingFileHandler(                # log to a file too
-            f'{top_level}/logs/inkycal.log',  # file to log
-            maxBytes=2097152,                 # 2MB max filesize
-            backupCount=5                     # create max 5 log files
-            )
-          ]
-    )
+logging.basicConfig(
+  level = logging.ERROR,
+  format='%(asctime)s | %(name)s |  %(levelname)s: %(message)s',
+  datefmt='%d-%m-%Y %H:%M:%S',
+  handlers=[stream_handler])
 
 # Show less logging for PIL module
 logging.getLogger("PIL").setLevel(logging.WARNING)
 
 filename = os.path.basename(__file__).split('.py')[0]
 logger = logging.getLogger(filename)
-
-# TODO: autostart -> supervisor?
 
 class Inkycal:
   """Inkycal main class
@@ -229,7 +198,7 @@ class Inkycal:
         print('OK!')
       except Exception as Error:
         errors.append(number)
-        self.info += f"module {number}: Error!  "
+        self.info += f"img {number}: Error!  "
         print('Error!')
         print(traceback.format_exc())
 
@@ -279,12 +248,12 @@ class Inkycal:
           black,colour=module.generate_image()
           black.save(f"{self.image_folder}/module{number}_black.png", "PNG")
           colour.save(f"{self.image_folder}/module{number}_colour.png", "PNG")
-          self.info += f"module {number}: OK  "
+          self.info += f"img {number}: OK  "
         except Exception as Error:
           errors.append(number)
           print('error!')
           print(traceback.format_exc())
-          self.info += f"module {number}: error!  "
+          self.info += f"img {number}: error!  "
           logger.exception(f'Exception in module {number}')
 
       if errors:
@@ -648,7 +617,7 @@ class Inkycal:
         else:
           print('found, removing')
 
-    # Create a memory backup of inkycal init file
+    # Create a memory backup of inykcal init file
     with open(f"{top_level}/inkycal/__init__.py", mode ='r') as file:
       inkycal_init = file.read().splitlines()
 
