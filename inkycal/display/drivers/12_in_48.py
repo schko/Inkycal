@@ -12,7 +12,7 @@ from PIL import Image
 EPD_WIDTH       = 1200
 EPD_HEIGHT      = 825
 
-driver_dir = top_level+'/inkycal/display/drivers/9_in_7_drivers/'
+driver_dir = top_level+'/inkycal/display/drivers/12_in_48_drivers/'
 
 class EPD:
 
