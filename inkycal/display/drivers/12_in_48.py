@@ -31,6 +31,7 @@ class EPD:
 
   def display(self, command):
     """displays an image"""
+    print('its getting here')
     try:
       run_command = command.split()
       run(run_command)
