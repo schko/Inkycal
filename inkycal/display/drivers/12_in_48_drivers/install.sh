@@ -2,8 +2,8 @@
 
 # Unzip C++ SPI library and driver files
 echo "Unzipping files"
-unzip bcm2835-1.68
-unzip EPD_12in48b
+unzip bcm2835-1.68.zip
+unzip EPD_12in48b.zip
 rm bcm2835-1.68.zip
 rm EPD_12in48b.zip
 
