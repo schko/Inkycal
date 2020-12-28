@@ -131,6 +131,8 @@ class Inkycal:
 
       # Init Display class with model in settings file
       from inkycal.display import Display
+      Display.get_display_names()
+      print('settings model', settings['model'])
       self.Display = Display(settings["model"])
 
       # check if colours can be rendered
